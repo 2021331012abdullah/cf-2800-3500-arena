@@ -1,158 +1,126 @@
-/* Custom styles for CF 2800-3500 Arena */
-
-@import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+/* Modern, Clean & Mobile-Friendly Styles for CF Arena */
+@import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600;700&family=Inter:wght@400;500;600;700;800&display=swap');
 
 :root {
-  --bg-dark: #0a0e17;
-  --bg-card: #111827;
-  --bg-card-hover: #172033;
-  --border-color: #1f293d;
-  --text-main: #f3f4f6;
-  --text-muted: #9ca3af;
+  --bg-primary: #090d16;
+  --bg-surface: #101623;
+  --bg-surface-hover: #161f31;
+  --border-subtle: #1c2638;
+  --border-focus: #38bdf8;
+  --text-main: #f8fafc;
+  --text-muted: #94a3b8;
   --accent-cyan: #06b6d4;
-  --accent-emerald: #10b981;
   --accent-red: #ef4444;
-  --accent-gold: #f59e0b;
+  --accent-emerald: #10b981;
+  --accent-amber: #f59e0b;
+}
+
+* {
+  -webkit-tap-highlight-color: transparent;
 }
 
 body {
   font-family: 'Inter', system-ui, -apple-system, sans-serif;
-  background-color: var(--bg-dark);
+  background-color: var(--bg-primary);
   color: var(--text-main);
   min-height: 100vh;
-  overflow-x: hidden;
+  margin: 0;
+  padding: 0;
 }
 
 .font-mono {
   font-family: 'Fira Code', monospace;
 }
 
-/* Custom Scrollbars */
+/* Hide scrollbar for horizontal swipeable tabs */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* Custom Webkit Scrollbar */
 ::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
+  width: 6px;
+  height: 6px;
 }
 ::-webkit-scrollbar-track {
-  background: #0b0f19;
+  background: var(--bg-primary);
 }
 ::-webkit-scrollbar-thumb {
-  background: #243049;
-  border-radius: 4px;
+  background: #243048;
+  border-radius: 9999px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #374768;
+  background: #3b4d70;
 }
 
-/* Rating Badges & Colors */
-.rating-2800, .rating-2900 {
+/* Rating Badges */
+.badge-gm {
   color: #ff3333;
-  border-color: rgba(255, 51, 51, 0.4);
-  background: rgba(255, 51, 51, 0.08);
+  background: rgba(255, 51, 51, 0.12);
+  border: 1px solid rgba(255, 51, 51, 0.35);
 }
 
-.rating-3000, .rating-3100, .rating-3200, .rating-3300, .rating-3400, .rating-3500 {
+.badge-lgm {
   color: #ff1a1a;
-  border-color: rgba(255, 26, 26, 0.5);
-  background: linear-gradient(135deg, rgba(255, 26, 26, 0.15), rgba(20, 20, 20, 0.6));
-  text-shadow: 0 0 10px rgba(255, 26, 26, 0.4);
+  background: linear-gradient(135deg, rgba(255, 26, 26, 0.2), rgba(15, 15, 15, 0.8));
+  border: 1px solid rgba(255, 26, 26, 0.5);
+  font-weight: 700;
+  text-shadow: 0 0 8px rgba(255, 26, 26, 0.3);
 }
 
-/* Tourist special effect */
-.legendary-badge {
-  position: relative;
-  font-weight: 800;
-}
-.legendary-badge::first-letter {
-  color: #ffffff;
-  text-shadow: 0 0 8px rgba(255, 255, 255, 0.8);
+/* Problem Card */
+.problem-card {
+  background-color: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: 1rem;
+  transition: transform 0.18s ease, border-color 0.18s ease, box-shadow 0.18s ease;
 }
 
-/* Tag spoiler blur effect */
+@media (hover: hover) {
+  .problem-card:hover {
+    border-color: #2e3e5c;
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.4);
+    transform: translateY(-2px);
+  }
+}
+
+.problem-card.card-solved {
+  border-color: rgba(16, 185, 129, 0.4);
+  background: linear-gradient(to bottom, rgba(16, 185, 129, 0.04), var(--bg-surface));
+}
+
+/* Tag spoiler blur */
 .spoilers-hidden .problem-tag {
-  filter: blur(4.5px);
+  filter: blur(5px);
   user-select: none;
-  transition: filter 0.2s ease, transform 0.2s ease;
-  cursor: pointer;
+  transition: filter 0.15s ease;
 }
-.spoilers-hidden .problem-tag:hover {
+.spoilers-hidden .problem-tag:hover,
+.spoilers-hidden .problem-tag:active {
   filter: blur(0px);
-  transform: scale(1.05);
-}
-
-/* Pulse animation for unsolved / active */
-@keyframes subtle-pulse {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.7; }
-}
-.animate-subtle-pulse {
-  animation: subtle-pulse 2s infinite ease-in-out;
-}
-
-/* Glowing card borders */
-.glow-card {
-  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-  border: 1px solid var(--border-color);
-}
-.glow-card:hover {
-  border-color: #38bdf8;
-  box-shadow: 0 8px 24px -4px rgba(56, 189, 248, 0.12);
-  transform: translateY(-2px);
 }
 
 /* Modal Backdrop */
 .modal-backdrop {
-  background-color: rgba(5, 8, 15, 0.85);
-  backdrop-filter: blur(6px);
+  background-color: rgba(4, 7, 13, 0.85);
+  backdrop-filter: blur(8px);
 }
 
-/* Table Row Highlights */
-.problem-row {
-  transition: background-color 0.15s ease;
+/* Pulse animation */
+@keyframes subtle-pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.85; transform: scale(1.02); }
 }
-.problem-row:hover {
-  background-color: rgba(30, 41, 59, 0.5) !important;
-}
-
-/* Solved status highlight */
-.row-solved {
-  background-color: rgba(16, 185, 129, 0.05);
-}
-.row-solved:hover {
-  background-color: rgba(16, 185, 129, 0.1) !important;
-}
-.row-attempted {
-  background-color: rgba(245, 158, 11, 0.05);
+.animate-subtle-pulse {
+  animation: subtle-pulse 1.8s infinite ease-in-out;
 }
 
-/* Roulette animation */
-@keyframes spin-roulette {
-  0% { transform: translateY(0); }
-  50% { transform: translateY(-50%); }
-  100% { transform: translateY(0); }
-}
-
-.roulette-slot {
-  transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-/* Tooltip custom */
-[data-tooltip] {
-  position: relative;
-}
-[data-tooltip]:hover::after {
-  content: attr(data-tooltip);
-  position: absolute;
-  bottom: 125%;
-  left: 50%;
-  transform: translateX(-50%);
-  background: #1e293b;
-  color: #f8fafc;
-  font-size: 11px;
-  padding: 4px 8px;
-  border-radius: 4px;
-  white-space: nowrap;
-  pointer-events: none;
-  z-index: 50;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.5);
-  border: 1px solid #334155;
+/* Mobile Touch Target */
+.touch-target {
+  min-height: 40px;
+  min-width: 40px;
 }
