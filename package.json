@@ -1,0 +1,19 @@
+{
+  "name": "cf-2800-3500-arena",
+  "version": "1.0.0",
+  "description": "Codeforces 2800-3500 Grandmaster & Tourist Problemset Explorer with multi-handle tracking",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "publish:tunnel": "node deploy-tunnel.js"
+  },
+  "keywords": [
+    "codeforces",
+    "competitive-programming",
+    "problemset",
+    "grandmaster",
+    "tourist"
+  ],
+  "author": "Abdullah Al Mahmud",
+  "license": "MIT"
+}

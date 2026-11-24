@@ -1,0 +1,158 @@
+/* Custom styles for CF 2800-3500 Arena */
+
+@import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+
+:root {
+  --bg-dark: #0a0e17;
+  --bg-card: #111827;
+  --bg-card-hover: #172033;
+  --border-color: #1f293d;
+  --text-main: #f3f4f6;
+  --text-muted: #9ca3af;
+  --accent-cyan: #06b6d4;
+  --accent-emerald: #10b981;
+  --accent-red: #ef4444;
+  --accent-gold: #f59e0b;
+}
+
+body {
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  background-color: var(--bg-dark);
+  color: var(--text-main);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+.font-mono {
+  font-family: 'Fira Code', monospace;
+}
+
+/* Custom Scrollbars */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #0b0f19;
+}
+::-webkit-scrollbar-thumb {
+  background: #243049;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #374768;
+}
+
+/* Rating Badges & Colors */
+.rating-2800, .rating-2900 {
+  color: #ff3333;
+  border-color: rgba(255, 51, 51, 0.4);
+  background: rgba(255, 51, 51, 0.08);
+}
+
+.rating-3000, .rating-3100, .rating-3200, .rating-3300, .rating-3400, .rating-3500 {
+  color: #ff1a1a;
+  border-color: rgba(255, 26, 26, 0.5);
+  background: linear-gradient(135deg, rgba(255, 26, 26, 0.15), rgba(20, 20, 20, 0.6));
+  text-shadow: 0 0 10px rgba(255, 26, 26, 0.4);
+}
+
+/* Tourist special effect */
+.legendary-badge {
+  position: relative;
+  font-weight: 800;
+}
+.legendary-badge::first-letter {
+  color: #ffffff;
+  text-shadow: 0 0 8px rgba(255, 255, 255, 0.8);
+}
+
+/* Tag spoiler blur effect */
+.spoilers-hidden .problem-tag {
+  filter: blur(4.5px);
+  user-select: none;
+  transition: filter 0.2s ease, transform 0.2s ease;
+  cursor: pointer;
+}
+.spoilers-hidden .problem-tag:hover {
+  filter: blur(0px);
+  transform: scale(1.05);
+}
+
+/* Pulse animation for unsolved / active */
+@keyframes subtle-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.7; }
+}
+.animate-subtle-pulse {
+  animation: subtle-pulse 2s infinite ease-in-out;
+}
+
+/* Glowing card borders */
+.glow-card {
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  border: 1px solid var(--border-color);
+}
+.glow-card:hover {
+  border-color: #38bdf8;
+  box-shadow: 0 8px 24px -4px rgba(56, 189, 248, 0.12);
+  transform: translateY(-2px);
+}
+
+/* Modal Backdrop */
+.modal-backdrop {
+  background-color: rgba(5, 8, 15, 0.85);
+  backdrop-filter: blur(6px);
+}
+
+/* Table Row Highlights */
+.problem-row {
+  transition: background-color 0.15s ease;
+}
+.problem-row:hover {
+  background-color: rgba(30, 41, 59, 0.5) !important;
+}
+
+/* Solved status highlight */
+.row-solved {
+  background-color: rgba(16, 185, 129, 0.05);
+}
+.row-solved:hover {
+  background-color: rgba(16, 185, 129, 0.1) !important;
+}
+.row-attempted {
+  background-color: rgba(245, 158, 11, 0.05);
+}
+
+/* Roulette animation */
+@keyframes spin-roulette {
+  0% { transform: translateY(0); }
+  50% { transform: translateY(-50%); }
+  100% { transform: translateY(0); }
+}
+
+.roulette-slot {
+  transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Tooltip custom */
+[data-tooltip] {
+  position: relative;
+}
+[data-tooltip]:hover::after {
+  content: attr(data-tooltip);
+  position: absolute;
+  bottom: 125%;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #1e293b;
+  color: #f8fafc;
+  font-size: 11px;
+  padding: 4px 8px;
+  border-radius: 4px;
+  white-space: nowrap;
+  pointer-events: none;
+  z-index: 50;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+  border: 1px solid #334155;
+}
