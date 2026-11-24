@@ -7,7 +7,7 @@
   <meta http-equiv="Pragma" content="no-cache">
   <meta http-equiv="Expires" content="0">
   <title>CF 2800-3500 Arena | Grandmaster Problemset</title>
-  <meta name="description" content="Clean, mobile-friendly Codeforces 2800-3500 problem explorer. Multi-handle sync, statement length & solves sorting, tag filters, roulette, and mashup generator.">
+  <meta name="description" content="Clean, mobile-friendly Codeforces 2800-3500 problem explorer. Multi-handle sync, statement length & solves sorting, tag filters, contest ID filter, roulette, and mashup generator.">
   
   <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
@@ -41,7 +41,7 @@
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
 
   <!-- Custom Stylesheet with cache bust -->
-  <link rel="stylesheet" href="styles.css?v=2.0.2">
+  <link rel="stylesheet" href="styles.css?v=2.1.0">
 </head>
 <body class="bg-[#090d16] text-gray-100 min-h-screen flex flex-col antialiased selection:bg-cyan-500 selection:text-black">
 
@@ -159,16 +159,16 @@
         <button class="rating-tab px-3 py-1.5 rounded-xl text-xs font-mono font-bold bg-[#101623] hover:bg-[#161f31] text-rose-400 border border-[#1c2638] cursor-pointer shrink-0 transition-all" data-rating="3500">3500</button>
       </div>
 
-      <!-- Search & Filters Toolbar -->
+      <!-- Search, Contest ID, Sort & Filters Toolbar -->
       <div class="grid grid-cols-1 sm:grid-cols-12 gap-2.5 items-center">
         
         <!-- Search -->
-        <div class="sm:col-span-6 relative">
+        <div class="sm:col-span-4 relative">
           <i class="fa-solid fa-magnifying-glass absolute left-3 top-1/2 -translate-y-1/2 text-gray-500 text-xs"></i>
           <input 
             type="text" 
             id="search-input" 
-            placeholder="Search problems by name or ID (e.g. Tree, 1609F)..." 
+            placeholder="Search problems by name or ID..." 
             class="w-full bg-[#101623] border border-[#1c2638] focus:border-cyan-500 rounded-xl pl-8 pr-8 py-2 text-xs text-white placeholder-gray-500 transition-all font-mono"
           >
           <button id="btn-clear-search" class="hidden absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-white text-xs cursor-pointer">
@@ -176,11 +176,25 @@
           </button>
         </div>
 
+        <!-- Contest ID Filter Quick Select -->
+        <div class="sm:col-span-3">
+          <select 
+            id="contest-filter-select" 
+            class="w-full bg-[#101623] border border-[#1c2638] focus:border-cyan-500 rounded-xl px-2.5 py-2 text-xs text-gray-200 cursor-pointer font-mono"
+          >
+            <option value="0">All Contests (10 - 2273)</option>
+            <option value="600">Contest ≥ 600 (Modern)</option>
+            <option value="1000">Contest ≥ 1000 (Recent)</option>
+            <option value="1500">Contest ≥ 1500 (Latest)</option>
+            <option value="1800">Contest ≥ 1800 (Newest)</option>
+          </select>
+        </div>
+
         <!-- Sort Selection -->
-        <div class="sm:col-span-4">
+        <div class="sm:col-span-3">
           <select 
             id="sort-select" 
-            class="w-full bg-[#101623] border border-[#1c2638] focus:border-cyan-500 rounded-xl px-3 py-2 text-xs text-gray-200 cursor-pointer font-mono"
+            class="w-full bg-[#101623] border border-[#1c2638] focus:border-cyan-500 rounded-xl px-2.5 py-2 text-xs text-gray-200 cursor-pointer font-mono"
           >
             <option value="length_asc">Length: Shortest First ⚡</option>
             <option value="length_desc">Length: Longest First 📜</option>
@@ -236,7 +250,7 @@
       <!-- Counter & Page size -->
       <div class="flex items-center justify-between text-xs text-gray-400 px-1 font-mono">
         <div>
-          Showing <span id="showing-range" class="text-white font-bold">1 - 48</span> of <span id="showing-total" class="text-white font-bold">1479</span>
+          Showing <span id="showing-range" class="text-white font-bold">1 - 48</span> of <span id="showing-total" class="text-white font-bold">1465</span>
         </div>
         <div class="flex items-center gap-1.5">
           <span>Show:</span>
@@ -244,7 +258,7 @@
             <option value="24">24</option>
             <option value="48" selected>48</option>
             <option value="96">96</option>
-            <option value="1479">All</option>
+            <option value="1465">All</option>
           </select>
         </div>
       </div>
@@ -283,7 +297,7 @@
         </div>
         <h3 class="font-bold text-sm text-gray-200">No problems match your filters</h3>
         <p class="text-xs text-gray-400 max-w-sm mx-auto">
-          Try clearing some tag or length filters to see more problems.
+          Try clearing some contest ID, tag, or length filters to see more problems.
         </p>
         <button id="btn-reset-filters" class="px-4 py-2 bg-cyan-600 hover:bg-cyan-500 text-white rounded-xl text-xs font-semibold cursor-pointer">
           Reset Filters
@@ -314,7 +328,7 @@
   <!-- FOOTER -->
   <footer class="mt-auto border-t border-[#1c2638] bg-[#070b13] py-4 text-xs text-gray-500">
     <div class="max-w-6xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-2">
-      <div>CF 2800-3500 Arena • Grandmaster Problemset</div>
+      <div>CF 2800-3500 Arena • Grandmaster Problemset (1,465 Problems)</div>
       <div class="flex items-center gap-3">
         <a href="https://codeforces.com" target="_blank" class="hover:text-cyan-400 transition-colors">Codeforces</a>
         <span>•</span>
@@ -323,7 +337,7 @@
     </div>
   </footer>
 
-  <!-- MODAL 1: FILTER DRAWER (Tags & Sliders) -->
+  <!-- MODAL 1: FILTER DRAWER (Contest ID, Tags & Sliders) -->
   <div id="modal-filters" class="fixed inset-0 z-50 hidden modal-backdrop flex items-center justify-center p-4">
     <div class="bg-[#101623] border border-[#223147] rounded-2xl max-w-lg w-full p-5 shadow-2xl space-y-4 relative max-h-[85vh] flex flex-col">
       
@@ -339,6 +353,25 @@
 
       <div class="overflow-y-auto space-y-4 pr-1 flex-1">
         
+        <!-- Contest ID Filter -->
+        <div class="bg-[#090d16] p-3 rounded-xl border border-[#1c2638] space-y-2">
+          <div class="flex items-center justify-between text-xs">
+            <span class="font-semibold text-gray-300">Min Contest ID</span>
+            <span id="drawer-contest-label" class="font-mono text-cyan-300 font-bold">Any (≥ 0)</span>
+          </div>
+          <div class="flex items-center gap-2">
+            <input type="range" id="drawer-contest-slider" min="0" max="2200" step="50" value="0" class="w-full h-1.5 bg-gray-700 rounded-lg appearance-none cursor-pointer accent-cyan-400">
+            <input type="number" id="drawer-contest-input" min="0" max="2500" value="0" placeholder="0" class="w-16 bg-[#101623] border border-[#1c2638] rounded-lg px-2 py-1 text-xs text-white font-mono text-center">
+          </div>
+          <div class="flex items-center gap-1.5 pt-1 flex-wrap">
+            <button class="contest-preset-btn px-2 py-0.5 rounded bg-[#161f31] text-[10px] text-gray-300 cursor-pointer" data-val="0">All (Any)</button>
+            <button class="contest-preset-btn px-2 py-0.5 rounded bg-[#161f31] text-[10px] text-cyan-300 border border-cyan-800/40 cursor-pointer font-mono" data-val="600">≥ 600</button>
+            <button class="contest-preset-btn px-2 py-0.5 rounded bg-[#161f31] text-[10px] text-gray-300 cursor-pointer font-mono" data-val="1000">≥ 1000</button>
+            <button class="contest-preset-btn px-2 py-0.5 rounded bg-[#161f31] text-[10px] text-gray-300 cursor-pointer font-mono" data-val="1500">≥ 1500</button>
+            <button class="contest-preset-btn px-2 py-0.5 rounded bg-[#161f31] text-[10px] text-gray-300 cursor-pointer font-mono" data-val="1800">≥ 1800</button>
+          </div>
+        </div>
+
         <!-- Max Statement Length Slider -->
         <div class="bg-[#090d16] p-3 rounded-xl border border-[#1c2638] space-y-2">
           <div class="flex items-center justify-between text-xs">
@@ -549,7 +582,7 @@
   <div id="toast-container" class="fixed bottom-4 right-4 z-50 space-y-1.5 pointer-events-none"></div>
 
   <!-- SCRIPTS WITH CACHE BUSTING -->
-  <script src="data.js?v=2.0.2"></script>
-  <script src="app.js?v=2.0.2"></script>
+  <script src="data.js?v=2.1.0"></script>
+  <script src="app.js?v=2.1.0"></script>
 </body>
 </html>

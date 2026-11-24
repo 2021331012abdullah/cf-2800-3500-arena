@@ -1,5 +1,6 @@
 /**
  * CF 2800-3500 Arena - Modern, Clean & Mobile-Friendly Core
+ * With Contest ID Filter (e.g. >= 600) and zero Labyrinth problems
  */
 
 // Application State
@@ -20,6 +21,7 @@ const state = {
   tagFilterMode: 'or', // 'or' | 'and' | 'not'
   lengthMax: 5910,
   solvesMin: 0,
+  contestMin: 0, // Contest ID filter: e.g. 600
   statusFilter: 'all', // 'all' | 'unsolved_all' | 'solved_any' | 'attempted'
   starredOnly: false,
   
@@ -53,6 +55,33 @@ window.toggleTag = function(tag) {
   renderDrawerTags(document.getElementById('drawer-tag-search')?.value || '');
   applyFiltersAndSort();
 };
+
+// Window helper to clear contest filter
+window.clearContestFilter = function() {
+  setContestFilter(0);
+};
+
+function setContestFilter(val) {
+  state.contestMin = Math.max(0, parseInt(val || '0', 10));
+  
+  // Sync toolbar select
+  const toolbarSelect = document.getElementById('contest-filter-select');
+  if (toolbarSelect) {
+    const hasOpt = Array.from(toolbarSelect.options).some(o => o.value == state.contestMin);
+    toolbarSelect.value = hasOpt ? state.contestMin : '0';
+  }
+
+  // Sync drawer controls
+  const slider = document.getElementById('drawer-contest-slider');
+  const numInput = document.getElementById('drawer-contest-input');
+  const label = document.getElementById('drawer-contest-label');
+
+  if (slider) slider.value = Math.min(2200, state.contestMin);
+  if (numInput) numInput.value = state.contestMin;
+  if (label) label.textContent = state.contestMin === 0 ? 'Any (≥ 0)' : `≥ ${state.contestMin}`;
+
+  applyFiltersAndSort();
+}
 
 // Toast Notifications
 function showToast(message, type = 'info') {
@@ -126,10 +155,11 @@ function getProblemStatus(prob) {
 async function loadProblems() {
   try {
     if (window.CF_PROBLEMS_DATA && Array.isArray(window.CF_PROBLEMS_DATA) && window.CF_PROBLEMS_DATA.length > 0) {
-      state.allProblems = window.CF_PROBLEMS_DATA;
+      state.allProblems = window.CF_PROBLEMS_DATA.filter(p => !p.name?.toLowerCase().includes('labyrinth'));
     } else {
       const res = await fetch('./cf_2800_3500_sorted.json');
-      state.allProblems = await res.json();
+      const loaded = await res.json();
+      state.allProblems = loaded.filter(p => !p.name?.toLowerCase().includes('labyrinth'));
     }
   } catch (e) {
     console.error('Error loading problems dataset', e);
@@ -384,6 +414,7 @@ function renderActiveTagsStrip() {
   let activeCount = state.selectedTags.size;
   if (state.lengthMax < 5910) activeCount++;
   if (state.solvesMin > 0) activeCount++;
+  if (state.contestMin > 0) activeCount++;
 
   if (activeCount > 0) {
     if (badge) {
@@ -392,13 +423,27 @@ function renderActiveTagsStrip() {
     }
     strip.classList.remove('hidden');
 
-    let html = Array.from(state.selectedTags).map(t => `
+    let html = '';
+
+    // Contest ID pill
+    if (state.contestMin > 0) {
+      html += `
+        <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-[#161f31] text-[11px] font-mono text-cyan-300 border border-cyan-800/40">
+          Contest ≥ ${state.contestMin}
+          <i class="fa-solid fa-xmark text-[9px] cursor-pointer hover:text-white" onclick="window.clearContestFilter()"></i>
+        </span>
+      `;
+    }
+
+    // Tag pills
+    html += Array.from(state.selectedTags).map(t => `
       <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-[#161f31] text-[11px] font-mono text-cyan-300 border border-[#1c2638]">
         ${t}
         <i class="fa-solid fa-xmark text-[9px] cursor-pointer hover:text-white" onclick="window.toggleTag('${t}')"></i>
       </span>
     `).join('');
 
+    // Sliders pills
     if (state.lengthMax < 5910) {
       html += `<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-[#161f31] text-[11px] font-mono text-amber-300 border border-[#1c2638]">&lt;${state.lengthMax}c</span>`;
     }
@@ -422,6 +467,7 @@ function applyFiltersAndSort() {
   const tagMode = state.tagFilterMode;
   const maxLen = state.lengthMax;
   const minSolves = state.solvesMin;
+  const minContest = state.contestMin;
   const statusFilter = state.statusFilter;
   const starredOnly = state.starredOnly;
 
@@ -436,6 +482,9 @@ function applyFiltersAndSort() {
 
     // Rating
     if (rating !== 'all' && prob.rating !== parseInt(rating, 10)) return false;
+
+    // Contest ID Filter (e.g. >= 600)
+    if (minContest > 0 && prob.contestId < minContest) return false;
 
     // Length & Solves
     if (prob.length > maxLen) return false;
@@ -963,6 +1012,33 @@ function setupEventListeners() {
     });
   }
 
+  // Contest ID filter dropdown in toolbar
+  const contestSelect = document.getElementById('contest-filter-select');
+  if (contestSelect) {
+    contestSelect.addEventListener('change', e => {
+      setContestFilter(e.target.value);
+    });
+  }
+
+  // Contest ID slider and input in drawer
+  const contestSlider = document.getElementById('drawer-contest-slider');
+  const contestNumInput = document.getElementById('drawer-contest-input');
+  if (contestSlider) {
+    contestSlider.addEventListener('input', e => {
+      setContestFilter(e.target.value);
+    });
+  }
+  if (contestNumInput) {
+    contestNumInput.addEventListener('input', e => {
+      setContestFilter(e.target.value);
+    });
+  }
+  document.querySelectorAll('.contest-preset-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      setContestFilter(btn.getAttribute('data-val'));
+    });
+  });
+
   // Sort
   const sortSelect = document.getElementById('sort-select');
   if (sortSelect) {
@@ -1051,6 +1127,7 @@ function setupEventListeners() {
       state.selectedTags.clear();
       state.lengthMax = 5910;
       state.solvesMin = 0;
+      setContestFilter(0);
       if (lenSlider) lenSlider.value = 5910;
       if (solvesSlider) solvesSlider.value = 0;
       if (lenLabel) lenLabel.textContent = '< 5910 chars';
@@ -1067,6 +1144,7 @@ function setupEventListeners() {
       state.selectedTags.clear();
       state.lengthMax = 5910;
       state.solvesMin = 0;
+      setContestFilter(0);
       renderDrawerTags();
       applyFiltersAndSort();
     });
@@ -1186,6 +1264,7 @@ function setupEventListeners() {
     state.selectedTags.clear();
     state.lengthMax = 5910;
     state.solvesMin = 0;
+    setContestFilter(0);
     state.statusFilter = 'all';
     state.starredOnly = false;
     const sInput = document.getElementById('search-input');
@@ -1202,7 +1281,6 @@ if (document.readyState === 'loading') {
     loadProblems();
   });
 } else {
-  // Already loaded
   setupEventListeners();
   loadProblems();
 }
