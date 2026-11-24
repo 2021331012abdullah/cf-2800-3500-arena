@@ -44,10 +44,13 @@ def fetch_editorial_for_problem(session, prob, csrf_token):
     index = prob["index"]
     prob_folder = os.path.join(PROBLEMS_DIR, pid)
     os.makedirs(prob_folder, exist_ok=True)
-    out_path = os.path.join(prob_folder, "editorial.html")
+    out_html_path = os.path.join(prob_folder, "editorial.html")
+    out_pdf_path = os.path.join(prob_folder, "editorial.pdf")
 
-    if os.path.exists(out_path) and os.path.getsize(out_path) > 200:
-        return True, "cached"
+    if os.path.exists(out_html_path) and os.path.getsize(out_html_path) > 200:
+        return True, "cached_html"
+    if os.path.exists(out_pdf_path) and os.path.getsize(out_pdf_path) > 500:
+        return True, "cached_pdf"
 
     # Strategy 1: problemTutorial AJAX endpoint
     if csrf_token:
@@ -66,7 +69,7 @@ def fetch_editorial_for_problem(session, prob, csrf_token):
                     data = tut_resp.json()
                     if data.get("success") == "true" and data.get("html"):
                         html_content = data["html"]
-                        with open(out_path, "w", encoding="utf-8") as f:
+                        with open(out_html_path, "w", encoding="utf-8") as f:
                             f.write(html_content)
                         return True, "ajax_tutorial"
                 except Exception:
@@ -74,29 +77,57 @@ def fetch_editorial_for_problem(session, prob, csrf_token):
         except Exception:
             pass
 
-    # Strategy 2: Check problem statement sidebar for editorial/tutorial blog link
+    # Strategy 2: Check problem statement sidebar for editorial/tutorial or PDF link
     stmt_path = os.path.join(prob_folder, "problem_statement.html")
-    blog_url = None
+    candidate_urls = []
     if os.path.exists(stmt_path):
-        with open(stmt_path, "r", encoding="utf-8") as f:
-            soup = BeautifulSoup(f.read(), "html.parser")
-        for a in soup.find_all("a", href=True):
-            text = a.get_text().strip().lower()
-            if "tutorial" in text or "editorial" in text:
-                href = a["href"]
-                if href.startswith("/"):
-                    blog_url = f"https://codeforces.com{href}"
-                elif href.startswith("http"):
-                    blog_url = href
-                break
-
-    if blog_url:
         try:
-            r = session.get(blog_url, timeout=20)
+            with open(stmt_path, "r", encoding="utf-8") as f:
+                soup = BeautifulSoup(f.read(), "html.parser")
+            for a in soup.find_all("a", href=True):
+                text = a.get_text().strip().lower()
+                href = a["href"].strip()
+                if any(w in text for w in ["tutorial", "editorial", "solution", "analysis"]) or href.lower().endswith(".pdf") or ".pdf" in href.lower():
+                    full_url = f"https://codeforces.com{href}" if href.startswith("/") else href
+                    candidate_urls.append(full_url)
+        except Exception:
+            pass
+
+    for blog_url in candidate_urls[:3]:
+        try:
+            r = session.get(blog_url, timeout=25)
             if r.status_code == 200:
-                with open(out_path, "w", encoding="utf-8") as f:
-                    f.write(r.text)
-                return True, "blog_page"
+                is_pdf = (
+                    blog_url.lower().endswith(".pdf") or
+                    r.content.startswith(b"%PDF-") or
+                    "application/pdf" in r.headers.get("Content-Type", "").lower()
+                )
+
+                if is_pdf:
+                    with open(out_pdf_path, "wb") as f:
+                        f.write(r.content)
+                    return True, "pdf_downloaded"
+                else:
+                    with open(out_html_path, "w", encoding="utf-8") as f:
+                        f.write(r.text)
+
+                    # Check if HTML points to an attached PDF
+                    if ".pdf" in r.text.lower():
+                        soup = BeautifulSoup(r.text, "html.parser")
+                        for a in soup.find_all("a", href=True):
+                            h_url = a["href"].strip()
+                            if ".pdf" in h_url.lower():
+                                pdf_target = f"https://codeforces.com{h_url}" if h_url.startswith("/") else h_url
+                                try:
+                                    r_subpdf = session.get(pdf_target, timeout=25)
+                                    if r_subpdf.status_code == 200 and r_subpdf.content.startswith(b"%PDF-"):
+                                        with open(out_pdf_path, "wb") as pf:
+                                            pf.write(r_subpdf.content)
+                                        break
+                                except Exception:
+                                    pass
+
+                    return True, "blog_page"
         except Exception:
             pass
 

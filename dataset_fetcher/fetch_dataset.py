@@ -171,10 +171,14 @@ def fetch_editorial(session, prob, prob_folder, csrf_token):
     pid = prob["id"]
     cid = prob["contestId"]
     idx = prob["index"]
-    ed_path = os.path.join(prob_folder, "editorial.html")
+    ed_html_path = os.path.join(prob_folder, "editorial.html")
+    ed_pdf_path = os.path.join(prob_folder, "editorial.pdf")
 
-    if os.path.exists(ed_path) and os.path.getsize(ed_path) > 200:
-        return True, "cached"
+    # If either HTML or PDF already exists and has valid size, skip
+    if os.path.exists(ed_html_path) and os.path.getsize(ed_html_path) > 200:
+        return True, "cached_html"
+    if os.path.exists(ed_pdf_path) and os.path.getsize(ed_pdf_path) > 500:
+        return True, "cached_pdf"
 
     # Strategy A: AJAX problemTutorial
     if csrf_token:
@@ -188,35 +192,81 @@ def fetch_editorial(session, prob, prob_folder, csrf_token):
             if tut_resp.status_code == 200:
                 data = tut_resp.json()
                 if data.get("success") == "true" and data.get("html"):
-                    with open(ed_path, "w", encoding="utf-8") as f:
-                        f.write(data["html"])
+                    html_text = data["html"]
+                    with open(ed_html_path, "w", encoding="utf-8") as f:
+                        f.write(html_text)
+                    
+                    # Check if the returned HTML references a PDF tutorial
+                    if ".pdf" in html_text.lower():
+                        soup = BeautifulSoup(html_text, "html.parser")
+                        for a in soup.find_all("a", href=True):
+                            if ".pdf" in a["href"].lower():
+                                pdf_url = f"https://codeforces.com{a['href']}" if a["href"].startswith("/") else a["href"]
+                                try:
+                                    r_pdf = session.get(pdf_url, timeout=25)
+                                    if r_pdf.status_code == 200 and (r_pdf.content.startswith(b"%PDF-") or "pdf" in r_pdf.headers.get("Content-Type", "").lower()):
+                                        with open(ed_pdf_path, "wb") as pf:
+                                            pf.write(r_pdf.content)
+                                        break
+                                except Exception:
+                                    pass
                     return True, "tutorial_ajax"
         except Exception:
             pass
 
-    # Strategy B: Sidebar link from problem statement
+    # Strategy B: Find tutorial or PDF link in problem statement sidebar
     stmt_path = os.path.join(prob_folder, "problem_statement.html")
-    blog_url = None
+    candidate_urls = []
     if os.path.exists(stmt_path):
         try:
             with open(stmt_path, "r", encoding="utf-8") as f:
                 soup = BeautifulSoup(f.read(), "html.parser")
             for a in soup.find_all("a", href=True):
                 text = a.get_text().strip().lower()
-                if "tutorial" in text or "editorial" in text:
-                    href = a["href"]
-                    blog_url = f"https://codeforces.com{href}" if href.startswith("/") else href
-                    break
+                href = a["href"].strip()
+                if any(w in text for w in ["tutorial", "editorial", "solution", "analysis"]) or href.lower().endswith(".pdf") or ".pdf" in href.lower():
+                    full_url = f"https://codeforces.com{href}" if href.startswith("/") else href
+                    candidate_urls.append(full_url)
         except Exception:
             pass
 
-    if blog_url:
+    for blog_url in candidate_urls[:3]:
         try:
-            r = session.get(blog_url, timeout=20)
+            r = session.get(blog_url, timeout=25)
             if r.status_code == 200:
-                with open(ed_path, "w", encoding="utf-8") as f:
-                    f.write(r.text)
-                return True, "blog_page"
+                is_pdf = (
+                    blog_url.lower().endswith(".pdf") or
+                    r.content.startswith(b"%PDF-") or
+                    "application/pdf" in r.headers.get("Content-Type", "").lower()
+                )
+
+                if is_pdf:
+                    # Save as binary PDF
+                    with open(ed_pdf_path, "wb") as f:
+                        f.write(r.content)
+                    return True, "pdf_downloaded"
+                else:
+                    # Save as HTML
+                    with open(ed_html_path, "w", encoding="utf-8") as f:
+                        f.write(r.text)
+
+                    # Also inspect if the HTML links to an attached PDF
+                    if ".pdf" in r.text.lower():
+                        soup = BeautifulSoup(r.text, "html.parser")
+                        for a in soup.find_all("a", href=True):
+                            h_url = a["href"].strip()
+                            if ".pdf" in h_url.lower():
+                                pdf_target = f"https://codeforces.com{h_url}" if h_url.startswith("/") else h_url
+                                try:
+                                    r_subpdf = session.get(pdf_target, timeout=25)
+                                    if r_subpdf.status_code == 200 and r_subpdf.content.startswith(b"%PDF-"):
+                                        with open(ed_pdf_path, "wb") as pf:
+                                            pf.write(r_subpdf.content)
+                                        break
+                                except Exception:
+                                    pass
+
+                    return True, "blog_page"
         except Exception:
             pass
 
