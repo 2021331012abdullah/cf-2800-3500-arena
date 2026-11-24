@@ -41,7 +41,7 @@ How many <b>distinct attainable arrays</b> is it possible to reach? Output the a
     <h3 class="text-base font-bold text-amber-400 mb-2">2. What does $\\text{swap}(a_i, a_{a_i})$ do? (The Bold Edge Bijection)</h3>
     <p class="text-xs text-gray-300 leading-relaxed mb-3">
       Let us track the effect of picking vertex $i$:
-      Initially, consider all original edges $u \\to a_u$ as "normal". We will mark some edges as <b>bold</b>.
+      Initially, consider all original edges $u \\to a_u$ as "normal". We mark some edges as <b>bold</b>.
       When we pick vertex $v$:
       <ul class="list-disc pl-5 space-y-1 text-xs text-gray-300 mb-3">
         <li>If no bold edge enters $v$, follow the bold edges backwards from $v$ to a source $u$, and mark the edge $u \\to a_u$ as <b>bold</b>.</li>
@@ -130,7 +130,13 @@ How many <b>distinct attainable arrays</b> is it possible to reach? Output the a
       This implementation achieves maximum brevity without sacrificing clarity. 
       It uses static arrays, avoids dynamic containers, and relies on <b>path timestamping</b> to extract cycles in a single $O(N)$ scan.
     `,
-    code: `#include <iostream>
+    code: `// ============================================================================
+// Problem: Codeforces 1863G - "Swaps" (Pinely Round 2)
+// Rating: 2800 | Complexity: O(N) Time, O(N) Space
+// Approach 1: Shortest Practical Contest Implementation
+// ============================================================================
+
+#include <iostream>
 #include <vector>
 
 using namespace std;
@@ -138,55 +144,72 @@ using namespace std;
 static const int MOD = 1000000007;
 
 int main() {
-    // Fast I/O for 10^6 elements
+    // Optimization: Untie cin from cout for sub-millisecond fast I/O
     ios_base::sync_with_stdio(false);
     cin.tie(NULL);
 
     int n;
     if (!(cin >> n)) return 0;
 
+    // a[i] stores the directed edge i -> a[i]
+    // in_deg[v] stores the number of directed edges pointing into vertex v
     vector<int> a(n + 1);
     vector<int> in_deg(n + 1, 0);
+
     for (int i = 1; i <= n; i++) {
         cin >> a[i];
-        in_deg[a[i]]++;
+        in_deg[a[i]]++; // Increment in-degree of the destination node
     }
 
-    // vis[u] = root_id of current search trace (avoids clearing visited array)
+    // vis[u] = root ID of the current search path.
+    // This clever "timestamp" technique avoids resetting an array across iterations!
     vector<int> vis(n + 1, 0);
     vector<bool> in_cycle(n + 1, false);
-    long long ans = 1;
 
-    // Step 1: Detect all cycles and compute their combinatorial contribution
+    long long ans = 1; // Accumulator for the answer modulo 10^9 + 7
+
+    // ========================================================================
+    // Step 1: Detect all directed cycles and apply the cycle formula
+    // ========================================================================
     for (int i = 1; i <= n; i++) {
         if (!vis[i]) {
             int curr = i;
+            // Walk forward along directed edges until we see an already-visited node
             while (!vis[curr]) {
-                vis[curr] = i;
+                vis[curr] = i; // Mark with current path root i
                 curr = a[curr];
             }
-            // If curr was visited during *this* path, it belongs to a newly found cycle
+
+            // If curr has vis[curr] == i, it was visited during THIS exact path.
+            // Hence, curr is guaranteed to be part of a newly discovered cycle!
             if (vis[curr] == i && !in_cycle[curr]) {
-                long long prod = 1, sum_deg = 0;
+                long long prod = 1;    // ∏ (in_deg[c] + 1)
+                long long sum_deg = 0; // ∑ in_deg[c]
+
+                // Traverse the simple cycle starting and ending at 'curr'
                 int p = curr;
                 do {
                     in_cycle[p] = true;
                     prod = (prod * (in_deg[p] + 1)) % MOD;
                     sum_deg = (sum_deg + in_deg[p]) % MOD;
-                    p = a[p];
+                    p = a[p]; // Step to next cycle node
                 } while (p != curr);
 
-                // Universal cycle formula: (prod - sum_deg)
-                // Note: For self-loops (k=1), (in+1) - in = 1 automatically!
+                // Apply the Cycle Invariant Formula:
+                // Ways(C) = ∏ (in_deg[c] + 1) - ∑ in_deg[c]
+                // Note: For self-loops (k = 1), (in+1) - in = 1 automatically!
                 long long cycle_ways = (prod - sum_deg + MOD) % MOD;
                 ans = (ans * cycle_ways) % MOD;
             }
         }
     }
 
-    // Step 2: Multiply independent choices for all tree nodes (not on any cycle)
+    // ========================================================================
+    // Step 2: Multiply independent choices for all tree nodes (not in cycle)
+    // ========================================================================
     for (int i = 1; i <= n; i++) {
         if (!in_cycle[i]) {
+            // Each tree node has (in_deg + 1) independent ways to pick a bold edge
             ans = (ans * (in_deg[i] + 1)) % MOD;
         }
     }
@@ -222,54 +245,73 @@ int main() {
       2. A clean <code>FunctionalGraph</code> class that decouples graph structure from math.
       3. Standard 3-state cycle detection (unvisited / visiting / visited) that every competitive programmer already has memorized.
     `,
-    code: `#include <iostream>
+    code: `// ============================================================================
+// Problem: Codeforces 1863G - "Swaps" (Pinely Round 2)
+// Approach 2: Easy-to-Think Modular Implementation
+// Focus: Clean Separation of Graph Topology vs Combinatorics Product
+// ============================================================================
+
+#include <iostream>
 #include <vector>
 
 using namespace std;
 
-// 1. Standard Modular Arithmetic Class (Paste from CP Notebook / Template)
+// ============================================================================
+// 1. Standard Modular Arithmetic Class (Paste from personal CP Template)
+// ============================================================================
 template<int MOD>
 struct Mint {
     int val;
     Mint(long long v = 0) { val = v % MOD; if (val < 0) val += MOD; }
+
     Mint& operator+=(const Mint& o) { val += o.val; if (val >= MOD) val -= MOD; return *this; }
     Mint& operator-=(const Mint& o) { val -= o.val; if (val < 0) val += MOD; return *this; }
     Mint& operator*=(const Mint& o) { val = (long long)val * o.val % MOD; return *this; }
+
     friend Mint operator+(Mint a, const Mint& b) { return a += b; }
     friend Mint operator-(Mint a, const Mint& b) { return a -= b; }
     friend Mint operator*(Mint a, const Mint& b) { return a *= b; }
 };
 using mint = Mint<1000000007>;
 
+// ============================================================================
 // 2. Modular Functional Graph Structure
+// ============================================================================
 struct FunctionalGraph {
     int n;
     vector<int> to;             // Directed edge: u -> to[u]
     vector<int> in_deg;         // in_deg[u] = count of edges pointing to u
-    vector<vector<int>> cycles; // List of all detected cycles
-    vector<bool> is_cycle_node; // Fast lookup for whether u is on a cycle
+    vector<vector<int>> cycles; // List of all extracted directed cycles
+    vector<bool> is_cycle_node; // Lookup: is_cycle_node[u] == true if u is on any cycle
 
     FunctionalGraph(int n) : n(n), to(n + 1), in_deg(n + 1, 0), is_cycle_node(n + 1, false) {}
 
+    // Add directed edge u -> v
     void add_edge(int u, int v) {
         to[u] = v;
         in_deg[v]++;
     }
 
+    // ------------------------------------------------------------------------
     // Standard 3-State Cycle Detection:
-    // 0 = unvisited, 1 = visiting (currently on the path), 2 = completely visited
+    // state[u] == 0: Unvisited
+    // state[u] == 1: Visiting (currently in the active recursion/walk stack)
+    // state[u] == 2: Visited (subgraph completely explored)
+    // ------------------------------------------------------------------------
     void extract_cycles() {
         vector<int> state(n + 1, 0);
+
         for (int i = 1; i <= n; i++) {
             if (state[i] != 0) continue;
-            
+
+            // Trace the path iteratively until an already-touched node is reached
             int curr = i;
             while (state[curr] == 0) {
-                state[curr] = 1;
+                state[curr] = 1; // Mark as visiting
                 curr = to[curr];
             }
-            
-            // If we re-encounter a node in 'visiting' state, a cycle exists!
+
+            // If curr is in 'visiting' state (1), we have hit a back-edge -> CYCLE FOUND!
             if (state[curr] == 1) {
                 vector<int> cycle;
                 int p = curr;
@@ -278,10 +320,11 @@ struct FunctionalGraph {
                     is_cycle_node[p] = true;
                     p = to[p];
                 } while (p != curr);
+
                 cycles.push_back(cycle);
             }
-            
-            // Clean up: mark the traversed path as permanently visited (state 2)
+
+            // Cleanup: mark all nodes along this path as permanently visited (state 2)
             curr = i;
             while (state[curr] == 1) {
                 state[curr] = 2;
@@ -290,32 +333,39 @@ struct FunctionalGraph {
         }
     }
 
-    // Solve distinct attainable configurations
+    // ------------------------------------------------------------------------
+    // Calculate total distinct attainable array states
+    // ------------------------------------------------------------------------
     mint solve() {
         extract_cycles();
 
         mint total_ways = 1;
 
-        // Step A: Calculate tree nodes contribution (all non-cycle vertices)
+        // Step A: Calculate contribution of all tree nodes (vertices not on any cycle)
+        // Each tree node u has (in_deg[u] + 1) independent choices
         for (int u = 1; u <= n; u++) {
             if (!is_cycle_node[u]) {
                 total_ways *= (in_deg[u] + 1);
             }
         }
 
-        // Step B: Calculate cycle contributions
+        // Step B: Calculate contribution of each directed cycle
         for (const auto& cycle : cycles) {
+            // Case 1: Self-loop (k = 1, a[c] == c).
+            // A fixed point has no rotational states; contributes factor 1.
             if (cycle.size() == 1) {
-                // Self-loop: stationary fixed point contributes factor 1
                 continue;
             }
+
+            // Case 2: Cycle of length k >= 2.
+            // Subtract invalid configurations where the cycle is destroyed into fixed points
             mint prod_in = 1;
             mint sum_in = 0;
             for (int c : cycle) {
                 prod_in *= (in_deg[c] + 1);
                 sum_in += in_deg[c];
             }
-            // Subtract invalid rotation configurations
+
             total_ways *= (prod_in - sum_in);
         }
 
@@ -323,6 +373,9 @@ struct FunctionalGraph {
     }
 };
 
+// ============================================================================
+// Main Execution
+// ============================================================================
 int main() {
     ios_base::sync_with_stdio(false);
     cin.tie(NULL);

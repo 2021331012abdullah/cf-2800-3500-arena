@@ -309,6 +309,69 @@
               </table>
             </div>
 
+            <!-- Python Reference Implementation -->
+            <div class="p-4 rounded-xl bg-[#0b101b] border border-[#1c2638] space-y-2">
+              <div class="flex items-center justify-between">
+                <span class="text-xs font-bold text-amber-400 font-mono flex items-center gap-2">
+                  <i class="fa-brands fa-python text-sm"></i>
+                  <span>Python 3 Reference Solver</span>
+                </span>
+                <span class="text-[10px] font-mono text-gray-500">PyPy3 / Python 3.10+</span>
+              </div>
+              <p class="text-[11px] text-gray-400">
+                While C++ is the standard for 2800+ rating graph combinatorics under a 2-second limit on $10^6$ nodes, here is the equivalent Python 3 implementation using fast flat-array timestamping:
+              </p>
+              <pre class="p-3 rounded-lg bg-[#070b12] border border-[#1c2638] text-[11px] font-mono text-gray-300 overflow-x-auto leading-relaxed select-all"><code>import sys
+
+def solve():
+    # Read all input via sys.stdin.read for high-performance I/O
+    raw = sys.stdin.read().split()
+    if not raw:
+        return
+    n = int(raw[0])
+    a = [0] + [int(x) for x in raw[1:n + 1]]
+    MOD = 1000000007
+
+    # Count in-degrees
+    in_deg = [0] * (n + 1)
+    for i in range(1, n + 1):
+        in_deg[a[i]] += 1
+
+    vis = [0] * (n + 1)
+    in_cycle = [False] * (n + 1)
+    ans = 1
+
+    # Extract cycles and multiply (prod - sum)
+    for i in range(1, n + 1):
+        if not vis[i]:
+            curr = i
+            while not vis[curr]:
+                vis[curr] = i
+                curr = a[curr]
+            if vis[curr] == i and not in_cycle[curr]:
+                prod, sum_deg = 1, 0
+                p = curr
+                while True:
+                    in_cycle[p] = True
+                    prod = (prod * (in_deg[p] + 1)) % MOD
+                    sum_deg = (sum_deg + in_deg[p]) % MOD
+                    p = a[p]
+                    if p == curr:
+                        break
+                cycle_ways = (prod - sum_deg + MOD) % MOD
+                ans = (ans * cycle_ways) % MOD
+
+    # Multiply tree nodes
+    for i in range(1, n + 1):
+        if not in_cycle[i]:
+            ans = (ans * (in_deg[i] + 1)) % MOD
+
+    print(ans)
+
+if __name__ == '__main__':
+    solve()</code></pre>
+            </div>
+
           </div>
 
           <!-- TAB 4: APPROACH 1 (SHORTEST PRACTICAL IMPLEMENTATION) -->
