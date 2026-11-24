@@ -1,3 +1,6 @@
 node_modules/
 .DS_Store
 *.log
+dataset_fetcher/cookie.txt
+dataset_fetcher/cf_dataset/
+
