@@ -1,0 +1,762 @@
+[
+  {
+    "id": 244517077,
+    "contestId": 1863,
+    "creationTimeSeconds": 1706863517,
+    "relativeTimeSeconds": 2147483647,
+    "problem": {
+      "contestId": 1863,
+      "index": "G",
+      "name": "Swaps",
+      "type": "PROGRAMMING",
+      "points": 2750.0,
+      "rating": 2800,
+      "tags": [
+        "combinatorics",
+        "dp",
+        "graphs",
+        "math"
+      ]
+    },
+    "author": {
+      "contestId": 1863,
+      "participantId": 162633267,
+      "members": [
+        {
+          "handle": "dongyc666"
+        }
+      ],
+      "participantType": "PRACTICE",
+      "ghost": false,
+      "startTimeSeconds": 1693406100
+    },
+    "programmingLanguage": "C++17 (GCC 9-64)",
+    "verdict": "OK",
+    "testset": "TESTS",
+    "passedTestCount": 74,
+    "timeConsumedMillis": 389,
+    "memoryConsumedBytes": 32051200
+  },
+  {
+    "id": 262869834,
+    "contestId": 1863,
+    "creationTimeSeconds": 1716808532,
+    "relativeTimeSeconds": 2147483647,
+    "problem": {
+      "contestId": 1863,
+      "index": "G",
+      "name": "Swaps",
+      "type": "PROGRAMMING",
+      "points": 2750.0,
+      "rating": 2800,
+      "tags": [
+        "combinatorics",
+        "dp",
+        "graphs",
+        "math"
+      ]
+    },
+    "author": {
+      "contestId": 1863,
+      "participantId": 182652869,
+      "members": [
+        {
+          "handle": "HRcohc"
+        }
+      ],
+      "participantType": "PRACTICE",
+      "ghost": false,
+      "startTimeSeconds": 1693406100
+    },
+    "programmingLanguage": "C++14 (GCC 6-32)",
+    "verdict": "OK",
+    "testset": "TESTS",
+    "passedTestCount": 74,
+    "timeConsumedMillis": 515,
+    "memoryConsumedBytes": 88780800
+  },
+  {
+    "id": 280029391,
+    "contestId": 1863,
+    "creationTimeSeconds": 1725606064,
+    "relativeTimeSeconds": 2147483647,
+    "problem": {
+      "contestId": 1863,
+      "index": "G",
+      "name": "Swaps",
+      "type": "PROGRAMMING",
+      "points": 2750.0,
+      "rating": 2800,
+      "tags": [
+        "combinatorics",
+        "dp",
+        "graphs",
+        "math"
+      ]
+    },
+    "author": {
+      "contestId": 1863,
+      "participantId": 191260362,
+      "members": [
+        {
+          "handle": "huaxiamengjin"
+        }
+      ],
+      "participantType": "PRACTICE",
+      "ghost": false,
+      "startTimeSeconds": 1693406100
+    },
+    "programmingLanguage": "C++20 (GCC 13-64)",
+    "verdict": "OK",
+    "testset": "TESTS",
+    "passedTestCount": 74,
+    "timeConsumedMillis": 1437,
+    "memoryConsumedBytes": 32153600
+  },
+  {
+    "id": 283067567,
+    "contestId": 1863,
+    "creationTimeSeconds": 1727363619,
+    "relativeTimeSeconds": 2147483647,
+    "problem": {
+      "contestId": 1863,
+      "index": "G",
+      "name": "Swaps",
+      "type": "PROGRAMMING",
+      "points": 2750.0,
+      "rating": 2800,
+      "tags": [
+        "combinatorics",
+        "dp",
+        "graphs",
+        "math"
+      ]
+    },
+    "author": {
+      "contestId": 1863,
+      "participantId": 192797414,
+      "members": [
+        {
+          "handle": "LCat90"
+        }
+      ],
+      "participantType": "PRACTICE",
+      "ghost": false,
+      "startTimeSeconds": 1693406100
+    },
+    "programmingLanguage": "C++17 (GCC 7-32)",
+    "verdict": "OK",
+    "testset": "TESTS",
+    "passedTestCount": 74,
+    "timeConsumedMillis": 546,
+    "memoryConsumedBytes": 135577600
+  },
+  {
+    "id": 291056189,
+    "contestId": 1863,
+    "creationTimeSeconds": 1731326972,
+    "relativeTimeSeconds": 2147483647,
+    "problem": {
+      "contestId": 1863,
+      "index": "G",
+      "name": "Swaps",
+      "type": "PROGRAMMING",
+      "points": 2750.0,
+      "rating": 2800,
+      "tags": [
+        "combinatorics",
+        "dp",
+        "graphs",
+        "math"
+      ]
+    },
+    "author": {
+      "contestId": 1863,
+      "participantId": 162610533,
+      "members": [
+        {
+          "handle": "peti1234"
+        }
+      ],
+      "participantType": "PRACTICE",
+      "ghost": false,
+      "startTimeSeconds": 1693406100
+    },
+    "programmingLanguage": "C++17 (GCC 7-32)",
+    "verdict": "OK",
+    "testset": "TESTS",
+    "passedTestCount": 74,
+    "timeConsumedMillis": 593,
+    "memoryConsumedBytes": 48332800
+  },
+  {
+    "id": 311621646,
+    "contestId": 1863,
+    "creationTimeSeconds": 1742539085,
+    "relativeTimeSeconds": 2147483647,
+    "problem": {
+      "contestId": 1863,
+      "index": "G",
+      "name": "Swaps",
+      "type": "PROGRAMMING",
+      "points": 2750.0,
+      "rating": 2800,
+      "tags": [
+        "combinatorics",
+        "dp",
+        "graphs",
+        "math"
+      ]
+    },
+    "author": {
+      "contestId": 1863,
+      "participantId": 206459153,
+      "members": [
+        {
+          "handle": "Kasane_Teto"
+        }
+      ],
+      "participantType": "PRACTICE",
+      "ghost": false,
+      "startTimeSeconds": 1693406100
+    },
+    "programmingLanguage": "C++20 (GCC 13-64)",
+    "verdict": "OK",
+    "testset": "TESTS",
+    "passedTestCount": 74,
+    "timeConsumedMillis": 514,
+    "memoryConsumedBytes": 55500800
+  },
+  {
+    "id": 317704580,
+    "contestId": 1863,
+    "creationTimeSeconds": 1745908986,
+    "relativeTimeSeconds": 2147483647,
+    "problem": {
+      "contestId": 1863,
+      "index": "G",
+      "name": "Swaps",
+      "type": "PROGRAMMING",
+      "points": 2750.0,
+      "rating": 2800,
+      "tags": [
+        "combinatorics",
+        "dp",
+        "graphs",
+        "math"
+      ]
+    },
+    "author": {
+      "contestId": 1863,
+      "participantId": 209576591,
+      "members": [
+        {
+          "handle": "RainShield"
+        }
+      ],
+      "participantType": "PRACTICE",
+      "ghost": false,
+      "startTimeSeconds": 1693406100
+    },
+    "programmingLanguage": "C++23 (GCC 14-64, msys2)",
+    "verdict": "OK",
+    "testset": "TESTS",
+    "passedTestCount": 74,
+    "timeConsumedMillis": 499,
+    "memoryConsumedBytes": 21094400
+  },
+  {
+    "id": 320879455,
+    "contestId": 1863,
+    "creationTimeSeconds": 1747992401,
+    "relativeTimeSeconds": 2147483647,
+    "problem": {
+      "contestId": 1863,
+      "index": "G",
+      "name": "Swaps",
+      "type": "PROGRAMMING",
+      "points": 2750.0,
+      "rating": 2800,
+      "tags": [
+        "combinatorics",
+        "dp",
+        "graphs",
+        "math"
+      ]
+    },
+    "author": {
+      "contestId": 1863,
+      "participantId": 209862864,
+      "members": [
+        {
+          "handle": "zolwikk"
+        }
+      ],
+      "participantType": "PRACTICE",
+      "ghost": false,
+      "startTimeSeconds": 1693406100
+    },
+    "programmingLanguage": "C++20 (GCC 13-64)",
+    "verdict": "OK",
+    "testset": "TESTS",
+    "passedTestCount": 74,
+    "timeConsumedMillis": 827,
+    "memoryConsumedBytes": 77107200
+  },
+  {
+    "id": 334657809,
+    "contestId": 1863,
+    "creationTimeSeconds": 1755690822,
+    "relativeTimeSeconds": 2147483647,
+    "problem": {
+      "contestId": 1863,
+      "index": "G",
+      "name": "Swaps",
+      "type": "PROGRAMMING",
+      "points": 2750.0,
+      "rating": 2800,
+      "tags": [
+        "combinatorics",
+        "dp",
+        "graphs",
+        "math"
+      ]
+    },
+    "author": {
+      "contestId": 1863,
+      "participantId": 201749986,
+      "members": [
+        {
+          "handle": "onkar_somanic"
+        }
+      ],
+      "participantType": "PRACTICE",
+      "ghost": false,
+      "startTimeSeconds": 1693406100
+    },
+    "programmingLanguage": "C++20 (GCC 13-64)",
+    "verdict": "OK",
+    "testset": "TESTS",
+    "passedTestCount": 74,
+    "timeConsumedMillis": 499,
+    "memoryConsumedBytes": 220467200
+  },
+  {
+    "id": 335539920,
+    "contestId": 1863,
+    "creationTimeSeconds": 1756179344,
+    "relativeTimeSeconds": 2147483647,
+    "problem": {
+      "contestId": 1863,
+      "index": "G",
+      "name": "Swaps",
+      "type": "PROGRAMMING",
+      "points": 2750.0,
+      "rating": 2800,
+      "tags": [
+        "combinatorics",
+        "dp",
+        "graphs",
+        "math"
+      ]
+    },
+    "author": {
+      "contestId": 1863,
+      "participantId": 168315700,
+      "members": [
+        {
+          "handle": "lesunhan2022"
+        }
+      ],
+      "participantType": "PRACTICE",
+      "ghost": false,
+      "startTimeSeconds": 1693406100
+    },
+    "programmingLanguage": "C++17 (GCC 7-32)",
+    "verdict": "OK",
+    "testset": "TESTS",
+    "passedTestCount": 74,
+    "timeConsumedMillis": 531,
+    "memoryConsumedBytes": 92262400
+  },
+  {
+    "id": 350793462,
+    "contestId": 1863,
+    "creationTimeSeconds": 1764204568,
+    "relativeTimeSeconds": 2147483647,
+    "problem": {
+      "contestId": 1863,
+      "index": "G",
+      "name": "Swaps",
+      "type": "PROGRAMMING",
+      "points": 2750.0,
+      "rating": 2800,
+      "tags": [
+        "combinatorics",
+        "dp",
+        "graphs",
+        "math"
+      ]
+    },
+    "author": {
+      "contestId": 1863,
+      "participantId": 197615098,
+      "members": [
+        {
+          "handle": "lcqlily"
+        }
+      ],
+      "participantType": "PRACTICE",
+      "ghost": false,
+      "startTimeSeconds": 1693406100
+    },
+    "programmingLanguage": "C++20 (GCC 13-64)",
+    "verdict": "OK",
+    "testset": "TESTS",
+    "passedTestCount": 74,
+    "timeConsumedMillis": 984,
+    "memoryConsumedBytes": 193433600
+  },
+  {
+    "id": 356222913,
+    "contestId": 1863,
+    "creationTimeSeconds": 1767399279,
+    "relativeTimeSeconds": 2147483647,
+    "problem": {
+      "contestId": 1863,
+      "index": "G",
+      "name": "Swaps",
+      "type": "PROGRAMMING",
+      "points": 2750.0,
+      "rating": 2800,
+      "tags": [
+        "combinatorics",
+        "dp",
+        "graphs",
+        "math"
+      ]
+    },
+    "author": {
+      "contestId": 1863,
+      "participantId": 202322778,
+      "members": [
+        {
+          "handle": "linanchen"
+        }
+      ],
+      "participantType": "PRACTICE",
+      "ghost": false,
+      "startTimeSeconds": 1693406100
+    },
+    "programmingLanguage": "C++20 (GCC 13-64)",
+    "verdict": "OK",
+    "testset": "TESTS",
+    "passedTestCount": 74,
+    "timeConsumedMillis": 781,
+    "memoryConsumedBytes": 67174400
+  },
+  {
+    "id": 358398786,
+    "contestId": 1863,
+    "creationTimeSeconds": 1768702718,
+    "relativeTimeSeconds": 2147483647,
+    "problem": {
+      "contestId": 1863,
+      "index": "G",
+      "name": "Swaps",
+      "type": "PROGRAMMING",
+      "points": 2750.0,
+      "rating": 2800,
+      "tags": [
+        "combinatorics",
+        "dp",
+        "graphs",
+        "math"
+      ]
+    },
+    "author": {
+      "contestId": 1863,
+      "participantId": 220544050,
+      "members": [
+        {
+          "handle": "decimal10"
+        }
+      ],
+      "participantType": "PRACTICE",
+      "ghost": false,
+      "startTimeSeconds": 1693406100
+    },
+    "programmingLanguage": "C++23 (GCC 14-64, msys2)",
+    "verdict": "OK",
+    "testset": "TESTS",
+    "passedTestCount": 74,
+    "timeConsumedMillis": 375,
+    "memoryConsumedBytes": 22016000
+  },
+  {
+    "id": 362012555,
+    "contestId": 1863,
+    "creationTimeSeconds": 1770558690,
+    "relativeTimeSeconds": 2147483647,
+    "problem": {
+      "contestId": 1863,
+      "index": "G",
+      "name": "Swaps",
+      "type": "PROGRAMMING",
+      "points": 2750.0,
+      "rating": 2800,
+      "tags": [
+        "combinatorics",
+        "dp",
+        "graphs",
+        "math"
+      ]
+    },
+    "author": {
+      "contestId": 1863,
+      "participantId": 230517374,
+      "members": [
+        {
+          "handle": "XiaoYunwen"
+        }
+      ],
+      "participantType": "PRACTICE",
+      "ghost": false,
+      "startTimeSeconds": 1693406100
+    },
+    "programmingLanguage": "C++20 (GCC 13-64)",
+    "verdict": "OK",
+    "testset": "TESTS",
+    "passedTestCount": 74,
+    "timeConsumedMillis": 1109,
+    "memoryConsumedBytes": 72601600
+  },
+  {
+    "id": 377776408,
+    "contestId": 1863,
+    "creationTimeSeconds": 1780920023,
+    "relativeTimeSeconds": 2147483647,
+    "problem": {
+      "contestId": 1863,
+      "index": "G",
+      "name": "Swaps",
+      "type": "PROGRAMMING",
+      "points": 2750.0,
+      "rating": 2800,
+      "tags": [
+        "combinatorics",
+        "dp",
+        "graphs",
+        "math"
+      ]
+    },
+    "author": {
+      "contestId": 1863,
+      "participantId": 162778742,
+      "members": [
+        {
+          "handle": "Jason_Jiang"
+        }
+      ],
+      "participantType": "PRACTICE",
+      "ghost": false,
+      "startTimeSeconds": 1693406100
+    },
+    "programmingLanguage": "C++17 (GCC 7-32)",
+    "verdict": "OK",
+    "testset": "TESTS",
+    "passedTestCount": 74,
+    "timeConsumedMillis": 1125,
+    "memoryConsumedBytes": 100966400
+  },
+  {
+    "id": 382813910,
+    "contestId": 1863,
+    "creationTimeSeconds": 1784129394,
+    "relativeTimeSeconds": 2147483647,
+    "problem": {
+      "contestId": 1863,
+      "index": "G",
+      "name": "Swaps",
+      "type": "PROGRAMMING",
+      "points": 2750.0,
+      "rating": 2800,
+      "tags": [
+        "combinatorics",
+        "dp",
+        "graphs",
+        "math"
+      ]
+    },
+    "author": {
+      "contestId": 1863,
+      "participantId": 241412994,
+      "members": [
+        {
+          "handle": "taylorbanks8"
+        }
+      ],
+      "participantType": "PRACTICE",
+      "ghost": false,
+      "startTimeSeconds": 1693406100
+    },
+    "programmingLanguage": "C++17 (GCC 7-32)",
+    "verdict": "OK",
+    "testset": "TESTS",
+    "passedTestCount": 74,
+    "timeConsumedMillis": 546,
+    "memoryConsumedBytes": 28569600
+  },
+  {
+    "id": 382877590,
+    "contestId": 1863,
+    "creationTimeSeconds": 1784173097,
+    "relativeTimeSeconds": 2147483647,
+    "problem": {
+      "contestId": 1863,
+      "index": "G",
+      "name": "Swaps",
+      "type": "PROGRAMMING",
+      "points": 2750.0,
+      "rating": 2800,
+      "tags": [
+        "combinatorics",
+        "dp",
+        "graphs",
+        "math"
+      ]
+    },
+    "author": {
+      "contestId": 1863,
+      "participantId": 241524312,
+      "members": [
+        {
+          "handle": "altytkn4"
+        }
+      ],
+      "participantType": "PRACTICE",
+      "ghost": false,
+      "startTimeSeconds": 1693406100
+    },
+    "programmingLanguage": "C++17 (GCC 7-32)",
+    "verdict": "OK",
+    "testset": "TESTS",
+    "passedTestCount": 74,
+    "timeConsumedMillis": 609,
+    "memoryConsumedBytes": 33177600
+  },
+  {
+    "id": 382884835,
+    "contestId": 1863,
+    "creationTimeSeconds": 1784177824,
+    "relativeTimeSeconds": 2147483647,
+    "problem": {
+      "contestId": 1863,
+      "index": "G",
+      "name": "Swaps",
+      "type": "PROGRAMMING",
+      "points": 2750.0,
+      "rating": 2800,
+      "tags": [
+        "combinatorics",
+        "dp",
+        "graphs",
+        "math"
+      ]
+    },
+    "author": {
+      "contestId": 1863,
+      "participantId": 241530872,
+      "members": [
+        {
+          "handle": "hannesf5"
+        }
+      ],
+      "participantType": "PRACTICE",
+      "ghost": false,
+      "startTimeSeconds": 1693406100
+    },
+    "programmingLanguage": "C++17 (GCC 7-32)",
+    "verdict": "OK",
+    "testset": "TESTS",
+    "passedTestCount": 74,
+    "timeConsumedMillis": 593,
+    "memoryConsumedBytes": 33280000
+  },
+  {
+    "id": 383203245,
+    "contestId": 1863,
+    "creationTimeSeconds": 1784315089,
+    "relativeTimeSeconds": 2147483647,
+    "problem": {
+      "contestId": 1863,
+      "index": "G",
+      "name": "Swaps",
+      "type": "PROGRAMMING",
+      "points": 2750.0,
+      "rating": 2800,
+      "tags": [
+        "combinatorics",
+        "dp",
+        "graphs",
+        "math"
+      ]
+    },
+    "author": {
+      "contestId": 1863,
+      "participantId": 241824498,
+      "members": [
+        {
+          "handle": "broctopolis5"
+        }
+      ],
+      "participantType": "PRACTICE",
+      "ghost": false,
+      "startTimeSeconds": 1693406100
+    },
+    "programmingLanguage": "C++17 (GCC 7-32)",
+    "verdict": "OK",
+    "testset": "TESTS",
+    "passedTestCount": 74,
+    "timeConsumedMillis": 375,
+    "memoryConsumedBytes": 12697600
+  },
+  {
+    "id": 384248315,
+    "contestId": 1863,
+    "creationTimeSeconds": 1785009104,
+    "relativeTimeSeconds": 2147483647,
+    "problem": {
+      "contestId": 1863,
+      "index": "G",
+      "name": "Swaps",
+      "type": "PROGRAMMING",
+      "points": 2750.0,
+      "rating": 2800,
+      "tags": [
+        "combinatorics",
+        "dp",
+        "graphs",
+        "math"
+      ]
+    },
+    "author": {
+      "contestId": 1863,
+      "participantId": 242711097,
+      "members": [
+        {
+          "handle": "abmorobotics2"
+        }
+      ],
+      "participantType": "PRACTICE",
+      "ghost": false,
+      "startTimeSeconds": 1693406100
+    },
+    "programmingLanguage": "C++17 (GCC 7-32)",
+    "verdict": "OK",
+    "testset": "TESTS",
+    "passedTestCount": 74,
+    "timeConsumedMillis": 375,
+    "memoryConsumedBytes": 36147200
+  }
+]

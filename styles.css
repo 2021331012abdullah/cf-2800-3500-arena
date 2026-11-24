@@ -124,3 +124,26 @@ body {
   min-height: 40px;
   min-width: 40px;
 }
+
+/* SVG Functional Graph Animations */
+@keyframes cycleFlow {
+  from {
+    stroke-dashoffset: 24;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+.animate-pulse {
+  animation: cycleFlow 1.2s linear infinite;
+}
+
+/* Scrollbar none utility */
+.scrollbar-none::-webkit-scrollbar {
+  display: none;
+}
+.scrollbar-none {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}

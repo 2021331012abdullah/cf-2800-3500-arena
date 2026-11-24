@@ -1,0 +1,90 @@
+[
+  {
+    "id": 244517077,
+    "handle": "dongyc666",
+    "lang": "C++17 (GCC 9-64)",
+    "length": 621,
+    "time_ms": 389,
+    "path": "submissions_1863G/244517077_dongyc666.cpp"
+  },
+  {
+    "id": 262869834,
+    "handle": "HRcohc",
+    "lang": "C++14 (GCC 6-32)",
+    "length": 1245,
+    "time_ms": 515,
+    "path": "submissions_1863G/262869834_HRcohc.cpp"
+  },
+  {
+    "id": 280029391,
+    "handle": "huaxiamengjin",
+    "lang": "C++20 (GCC 13-64)",
+    "length": 786,
+    "time_ms": 1437,
+    "path": "submissions_1863G/280029391_huaxiamengjin.cpp"
+  },
+  {
+    "id": 283067567,
+    "handle": "LCat90",
+    "lang": "C++17 (GCC 7-32)",
+    "length": 991,
+    "time_ms": 546,
+    "path": "submissions_1863G/283067567_LCat90.cpp"
+  },
+  {
+    "id": 291056189,
+    "handle": "peti1234",
+    "lang": "C++17 (GCC 7-32)",
+    "length": 1093,
+    "time_ms": 593,
+    "path": "submissions_1863G/291056189_peti1234.cpp"
+  },
+  {
+    "id": 311621646,
+    "handle": "Kasane_Teto",
+    "lang": "C++20 (GCC 13-64)",
+    "length": 1412,
+    "time_ms": 514,
+    "path": "submissions_1863G/311621646_Kasane_Teto.cpp"
+  },
+  {
+    "id": 317704580,
+    "handle": "RainShield",
+    "lang": "C++23 (GCC 14-64, msys2)",
+    "length": 1031,
+    "time_ms": 499,
+    "path": "submissions_1863G/317704580_RainShield.cpp"
+  },
+  {
+    "id": 320879455,
+    "handle": "zolwikk",
+    "lang": "C++20 (GCC 13-64)",
+    "length": 2455,
+    "time_ms": 827,
+    "path": "submissions_1863G/320879455_zolwikk.cpp"
+  },
+  {
+    "id": 334657809,
+    "handle": "onkar_somanic",
+    "lang": "C++20 (GCC 13-64)",
+    "length": 932,
+    "time_ms": 499,
+    "path": "submissions_1863G/334657809_onkar_somanic.cpp"
+  },
+  {
+    "id": 335539920,
+    "handle": "lesunhan2022",
+    "lang": "C++17 (GCC 7-32)",
+    "length": 612,
+    "time_ms": 531,
+    "path": "submissions_1863G/335539920_lesunhan2022.cpp"
+  },
+  {
+    "id": 350793462,
+    "handle": "lcqlily",
+    "lang": "C++20 (GCC 13-64)",
+    "length": 1951,
+    "time_ms": 984,
+    "path": "submissions_1863G/350793462_lcqlily.cpp"
+  }
+]

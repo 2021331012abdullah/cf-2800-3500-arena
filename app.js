@@ -658,6 +658,16 @@ function renderCards(items) {
           `).join('')}
         </div>
 
+        <!-- Special Editorial Masterclass Badge for 1863G -->
+        ${prob.id === '1863G' ? `
+          <div class="pt-1">
+            <button onclick="window.openEditorial1863G &amp;&amp; window.openEditorial1863G()" class="w-full py-2 px-3 rounded-xl bg-gradient-to-r from-amber-500/20 via-purple-600/20 to-cyan-500/20 hover:from-amber-500/30 hover:to-cyan-500/30 border border-amber-500/40 text-amber-300 hover:text-white text-xs font-semibold flex items-center justify-center gap-2 cursor-pointer shadow-sm transition-all">
+              <i class="fa-solid fa-book-open text-amber-400"></i>
+              <span>📖 Editorial, Approaches &amp; Visualizer</span>
+            </button>
+          </div>
+        ` : ''}
+
         <!-- Card Footer Actions -->
         <div class="pt-2 border-t border-[#1c2638] flex items-center justify-between text-xs">
           <button class="btn-notes text-gray-400 hover:text-cyan-400 flex items-center gap-1 text-[11px] cursor-pointer" data-id="${prob.id}" data-name="${prob.name}">
@@ -695,6 +705,11 @@ function renderTable(items, startIndex) {
         </td>
         <td class="py-2.5 px-4 font-semibold text-gray-200">
           <a href="${cfUrl}" target="_blank" class="hover:text-cyan-400 transition-colors">${prob.name}</a>
+          ${prob.id === '1863G' ? `
+            <button onclick="window.openEditorial1863G &amp;&amp; window.openEditorial1863G()" class="ml-2 inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-amber-500/20 text-amber-300 hover:text-white border border-amber-500/30 text-[10px] font-mono font-bold cursor-pointer transition-all">
+              <i class="fa-solid fa-book-open text-[9px] text-amber-400"></i> Editorial &amp; Visualizer
+            </button>
+          ` : ''}
         </td>
         <td class="py-2.5 px-3 text-center">${getRatingBadge(prob.rating)}</td>
         <td class="py-2.5 px-3 text-center font-mono text-[11px] text-gray-300">${prob.length}c (${prob.words}w)</td>
