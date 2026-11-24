@@ -44,6 +44,7 @@ Codeforces occasionally rotates its anti-bot proof-of-work challenge (`pow`) on 
 * **Automatic Stop**: When the script detects a Cloudflare Turnstile or expired token, it **immediately saves all progress**, logs which submission paused, and exits cleanly.
 * **To Resume**:
   1. Open any submission page in your browser to pass the check.
-  2. Copy the `Cookie:` header into `dataset_fetcher/cookie.txt`.
+  2. Paste your updated cookies into `dataset_fetcher/cookie.txt`.
+     *(Both standard `name=val; ...` string and JSON array `[{"name": "...", "value": "..."}, ...]` exported from Cookie-Editor / DevTools are supported automatically!)*
   3. Re-run `python dataset_fetcher/fetch_dataset.py`.
   4. The script **instantly resumes** from the exact file where it stopped!

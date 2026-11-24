@@ -54,13 +54,32 @@ CHALLENGE_SIGNATURES = [
 ]
 
 def load_cookie():
-    """Load cookie string from cookie.txt if available."""
+    """Load cookie string from cookie.txt if available.
+    Supports both JSON array format (from browser extensions) and raw 'name=val; ...' strings."""
     if os.path.exists(COOKIE_FILE):
         try:
             with open(COOKIE_FILE, "r", encoding="utf-8") as f:
-                c = f.read().strip()
-                if c:
-                    return c
+                content = f.read().strip()
+                if not content:
+                    return None
+                # Check if JSON format
+                if content.startswith("[") or content.startswith("{"):
+                    try:
+                        data = json.loads(content)
+                        if isinstance(data, list):
+                            cookie_parts = []
+                            for c in data:
+                                if isinstance(c, dict) and "name" in c and "value" in c:
+                                    val = str(c["value"])
+                                    # Skip empty values or keep them clean
+                                    cookie_parts.append(f"{c['name']}={val}")
+                            if cookie_parts:
+                                return "; ".join(cookie_parts)
+                        elif isinstance(data, dict):
+                            return "; ".join(f"{k}={v}" for k, v in data.items())
+                    except json.JSONDecodeError:
+                        pass
+                return content
         except Exception:
             pass
     return None
