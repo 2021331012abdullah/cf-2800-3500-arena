@@ -145,45 +145,57 @@ def fetch_statement(session, prob, prob_folder):
         return True, "cached"
 
     url = f"https://codeforces.com/problemset/problem/{cid}/{idx}?locale=en"
-    r = session.get(url, timeout=20)
+    for attempt in range(3):
+        try:
+            r = session.get(url, timeout=20)
 
-    if r.status_code == 403 or is_bot_challenge(r.text):
-        return False, "cloudflare_block"
+            if r.status_code == 200 and not is_bot_challenge(r.text):
+                with open(stmt_html_path, "w", encoding="utf-8") as f:
+                    f.write(r.text)
 
-    if r.status_code == 200:
-        with open(stmt_html_path, "w", encoding="utf-8") as f:
-            f.write(r.text)
+                soup = BeautifulSoup(r.text, "html.parser")
+                stmt_div = soup.find("div", class_="problem-statement")
+                if stmt_div:
+                    title_el = stmt_div.find("div", class_="title")
+                    time_el = stmt_div.find("div", class_="time-limit")
+                    mem_el = stmt_div.find("div", class_="memory-limit")
+                    samples_div = stmt_div.find("div", class_="sample-test")
+                    samples = []
+                    if samples_div:
+                        inputs = [i.find("pre").get_text("\n", strip=True) for i in samples_div.find_all("div", class_="input") if i.find("pre")]
+                        outputs = [o.find("pre").get_text("\n", strip=True) for o in samples_div.find_all("div", class_="output") if o.find("pre")]
+                        for inp, outp in zip(inputs, outputs):
+                            samples.append({"input": inp, "output": outp})
 
-        soup = BeautifulSoup(r.text, "html.parser")
-        stmt_div = soup.find("div", class_="problem-statement")
-        if stmt_div:
-            title_el = stmt_div.find("div", class_="title")
-            time_el = stmt_div.find("div", class_="time-limit")
-            mem_el = stmt_div.find("div", class_="memory-limit")
-            samples_div = stmt_div.find("div", class_="sample-test")
-            samples = []
-            if samples_div:
-                inputs = [i.find("pre").get_text("\n", strip=True) for i in samples_div.find_all("div", class_="input") if i.find("pre")]
-                outputs = [o.find("pre").get_text("\n", strip=True) for o in samples_div.find_all("div", class_="output") if o.find("pre")]
-                for inp, outp in zip(inputs, outputs):
-                    samples.append({"input": inp, "output": outp})
+                    data = {
+                        "id": pid,
+                        "contestId": cid,
+                        "index": idx,
+                        "name": prob.get("name"),
+                        "rating": prob.get("rating"),
+                        "title": title_el.get_text(strip=True) if title_el else "",
+                        "timeLimit": time_el.get_text(strip=True) if time_el else "",
+                        "memoryLimit": mem_el.get_text(strip=True) if mem_el else "",
+                        "samples": samples
+                    }
+                    with open(stmt_json_path, "w", encoding="utf-8") as f:
+                        json.dump(data, f, indent=2, ensure_ascii=False)
 
-            data = {
-                "id": pid,
-                "contestId": cid,
-                "index": idx,
-                "name": prob.get("name"),
-                "rating": prob.get("rating"),
-                "title": title_el.get_text(strip=True) if title_el else "",
-                "timeLimit": time_el.get_text(strip=True) if time_el else "",
-                "memoryLimit": mem_el.get_text(strip=True) if mem_el else "",
-                "samples": samples
-            }
-            with open(stmt_json_path, "w", encoding="utf-8") as f:
-                json.dump(data, f, indent=2, ensure_ascii=False)
+                return True, "fetched"
 
-        return True, "fetched"
-    return False, f"http_{r.status_code}"
+            elif r.status_code == 403 or is_bot_challenge(r.text) or r.status_code == 429:
+                if attempt < 2:
+                    time.sleep(3.2 * (attempt + 1))
+                    continue
+                else:
+                    return False, "cloudflare_block"
+
+        except Exception:
+            if attempt < 2:
+                time.sleep(2.0)
+                continue
+
+    return False, "failed_retries"
 
 # ----------------- STAGE 2: EDITORIAL -----------------
 def fetch_editorial(session, prob, prob_folder, csrf_token):
@@ -394,27 +406,48 @@ def download_submission_sources(session, prob, prob_folder, subs_list, progress_
             continue
 
         url = f"https://codeforces.com/contest/{cid}/submission/{sid}"
-        try:
-            r = session.get(url, timeout=20)
-            
-            # Check for Cloudflare / anti-bot challenge
-            if r.status_code == 403 or is_bot_challenge(r.text):
-                return False, f"Cloudflare / Bot Challenge detected on sub {sid}", downloaded
+        sub_downloaded = False
 
-            if r.status_code == 200:
-                soup = BeautifulSoup(r.text, "html.parser")
-                pre = soup.find("pre", id="program-source-text")
-                if pre:
-                    with open(file_path, "w", encoding="utf-8") as fp:
-                        fp.write(pre.get_text())
-                    downloaded += 1
-                elif "program-source-text" not in r.text and is_bot_challenge(r.text):
-                    return False, f"Bot challenge detected on sub {sid}", downloaded
+        # Attempt up to 3 times with backoff if a temporary challenge is encountered
+        for attempt in range(3):
+            try:
+                r = session.get(url, timeout=20)
+                
+                # Check for Cloudflare / anti-bot challenge
+                if r.status_code == 403 or is_bot_challenge(r.text) or r.status_code == 429:
+                    if attempt < 2:
+                        # Wait 3-4 seconds for the challenge/check to clear
+                        time.sleep(3.2 * (attempt + 1))
+                        continue
+                    else:
+                        return False, f"Cloudflare / Bot Challenge detected on sub {sid} (after 3 attempts with wait)", downloaded
 
-            time.sleep(random.uniform(0.5, 0.9))
+                if r.status_code == 200:
+                    soup = BeautifulSoup(r.text, "html.parser")
+                    pre = soup.find("pre", id="program-source-text")
+                    if pre:
+                        with open(file_path, "w", encoding="utf-8") as fp:
+                            fp.write(pre.get_text())
+                        downloaded += 1
+                        sub_downloaded = True
+                        break
+                    elif is_bot_challenge(r.text):
+                        if attempt < 2:
+                            time.sleep(3.2 * (attempt + 1))
+                            continue
+                        else:
+                            return False, f"Bot challenge detected on sub {sid}", downloaded
+                    else:
+                        # Some other valid page structure or empty submission
+                        sub_downloaded = True
+                        break
 
-        except Exception as e:
-            pass
+            except Exception:
+                if attempt < 2:
+                    time.sleep(2.0)
+                    continue
+
+        time.sleep(random.uniform(0.5, 0.9))
 
         if progress_bar:
             progress_bar.update(1)
