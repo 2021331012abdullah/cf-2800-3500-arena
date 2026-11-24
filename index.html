@@ -3,6 +3,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+  <meta http-equiv="Pragma" content="no-cache">
+  <meta http-equiv="Expires" content="0">
   <title>CF 2800-3500 Arena | Grandmaster Problemset</title>
   <meta name="description" content="Clean, mobile-friendly Codeforces 2800-3500 problem explorer. Multi-handle sync, statement length & solves sorting, tag filters, roulette, and mashup generator.">
   
@@ -37,8 +40,8 @@
   <!-- Confetti for Roulette -->
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
 
-  <!-- Custom Stylesheet -->
-  <link rel="stylesheet" href="styles.css">
+  <!-- Custom Stylesheet with cache bust -->
+  <link rel="stylesheet" href="styles.css?v=2.0.2">
 </head>
 <body class="bg-[#090d16] text-gray-100 min-h-screen flex flex-col antialiased selection:bg-cyan-500 selection:text-black">
 
@@ -233,7 +236,7 @@
       <!-- Counter & Page size -->
       <div class="flex items-center justify-between text-xs text-gray-400 px-1 font-mono">
         <div>
-          Showing <span id="showing-range" class="text-white font-bold">1 - 50</span> of <span id="showing-total" class="text-white font-bold">1479</span>
+          Showing <span id="showing-range" class="text-white font-bold">1 - 48</span> of <span id="showing-total" class="text-white font-bold">1479</span>
         </div>
         <div class="flex items-center gap-1.5">
           <span>Show:</span>
@@ -545,8 +548,8 @@
   <!-- TOAST CONTAINER -->
   <div id="toast-container" class="fixed bottom-4 right-4 z-50 space-y-1.5 pointer-events-none"></div>
 
-  <!-- SCRIPTS -->
-  <script src="data.js"></script>
-  <script src="app.js"></script>
+  <!-- SCRIPTS WITH CACHE BUSTING -->
+  <script src="data.js?v=2.0.2"></script>
+  <script src="app.js?v=2.0.2"></script>
 </body>
 </html>
